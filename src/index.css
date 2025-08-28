@@ -1,147 +1,133 @@
 @import "tailwindcss";
 
-@theme {
-  --color-mutant-green: #00ff88;
-  --color-mutant-green-dark: #00cc6a;
-  --color-mutant-dark: #0a0a0a;
-  --color-mutant-gray: #1a1a1a;
-  --color-mutant-gray-light: #374151;
-  
-  --font-family-inter: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
-  
-  --shadow-green-glow: 0 0 20px color-mix(in srgb, var(--color-mutant-green) 30%, transparent);
-  --shadow-green-glow-lg: 0 10px 25px color-mix(in srgb, var(--color-mutant-green) 30%, transparent);
-}
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-@layer base {
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: var(--font-family-inter);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: theme(colors.gray.900);
-    color: theme(colors.white);
-    overflow-x: hidden;
-  }
-
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: theme(colors.gray.800);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-mutant-green);
-    border-radius: 4px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-mutant-green-dark);
-  }
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #111827;
+  color: #ffffff;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
-@layer utilities {
-  .text-mutant-green {
-    color: var(--color-mutant-green);
-  }
-  
-  .bg-mutant-green {
-    background-color: var(--color-mutant-green);
-  }
-  
-  .border-mutant-green {
-    border-color: var(--color-mutant-green);
-  }
-  
-  .hover\:bg-mutant-green:hover {
-    background-color: var(--color-mutant-green);
-  }
-  
-  .hover\:bg-mutant-green-600:hover {
-    background-color: var(--color-mutant-green-dark);
-  }
-  
-  .bg-gradient-mutant {
-    background: linear-gradient(135deg, theme(colors.gray.900) 0%, theme(colors.gray.800) 50%, theme(colors.gray.900) 100%);
-  }
-  
-  .text-gradient {
-    background: linear-gradient(135deg, var(--color-mutant-green), var(--color-mutant-green-dark));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .shadow-green-glow {
-    box-shadow: var(--shadow-green-glow);
-  }
-  
-  .shadow-green-glow-lg {
-    box-shadow: var(--shadow-green-glow-lg);
-  }
+* {
+  box-sizing: border-box;
 }
 
-@layer components {
-  .btn-primary {
-    background-color: var(--color-mutant-green);
-    color: theme(colors.gray.900);
-    padding: 1rem 2rem;
-    border-radius: var(--radius-lg);
-    font-weight: 600;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-  
-  .btn-primary:hover {
-    background-color: var(--color-mutant-green-dark);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-green-glow-lg);
-  }
-  
-  .btn-secondary {
-    border: 2px solid var(--color-mutant-green);
-    color: var(--color-mutant-green);
-    background: transparent;
-    padding: 1rem 2rem;
-    border-radius: var(--radius-lg);
-    font-weight: 600;
-    transition: all 0.3s ease;
-  }
-  
-  .btn-secondary:hover {
-    background-color: var(--color-mutant-green);
-    color: theme(colors.gray.900);
-  }
-  
-  .glass-card {
-    background-color: theme(colors.gray.800);
-    border: 1px solid color-mix(in srgb, var(--color-mutant-green) 20%, transparent);
-    border-radius: var(--radius-xl);
-    transition: all 0.3s ease;
-  }
-  
-  .glass-card:hover {
-    border-color: color-mix(in srgb, var(--color-mutant-green) 40%, transparent);
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px color-mix(in srgb, theme(colors.black) 30%, transparent);
-  }
+::-webkit-scrollbar {
+  width: 8px;
 }
 
+::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00ff88;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00cc6a;
+}
+
+/* Clases personalizadas para Tailwind v4 */
+.text-mutant-green {
+  color: #00ff88 !important;
+}
+
+.bg-mutant-green {
+  background-color: #00ff88 !important;
+}
+
+.border-mutant-green {
+  border-color: #00ff88 !important;
+}
+
+.hover\:bg-mutant-green:hover {
+  background-color: #00ff88 !important;
+}
+
+.hover\:bg-mutant-green-600:hover {
+  background-color: #00cc6a !important;
+}
+
+.border-mutant-green\/20 {
+  border-color: rgba(0, 255, 136, 0.2) !important;
+}
+
+.border-mutant-green\/40 {
+  border-color: rgba(0, 255, 136, 0.4) !important;
+}
+
+.bg-mutant-green\/10 {
+  background-color: rgba(0, 255, 136, 0.1) !important;
+}
+
+.bg-mutant-green\/20 {
+  background-color: rgba(0, 255, 136, 0.2) !important;
+}
+
+.from-mutant-green\/20 {
+  --tw-gradient-from: rgba(0, 255, 136, 0.2) !important;
+}
+
+/* Botones personalizados */
+.btn-primary {
+  background-color: #00ff88 !important;
+  color: #111827 !important;
+  padding: 1rem 2rem !important;
+  border-radius: 0.5rem !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  cursor: pointer !important;
+  border: none !important;
+}
+
+.btn-primary:hover {
+  background-color: #00cc6a !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3) !important;
+}
+
+.btn-secondary {
+  border: 2px solid #00ff88 !important;
+  color: #00ff88 !important;
+  background: transparent !important;
+  padding: 1rem 2rem !important;
+  border-radius: 0.5rem !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+}
+
+.btn-secondary:hover {
+  background-color: #00ff88 !important;
+  color: #111827 !important;
+}
+
+/* Cards personalizadas */
+.glass-card {
+  background-color: #1f2937 !important;
+  border: 1px solid rgba(0, 255, 136, 0.2) !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 255, 136, 0.4) !important;
+  transform: translateY(-5px) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Animaciones */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -154,5 +140,47 @@
 }
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out;
+  animation: fadeInUp 0.6s ease-out !important;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+}
+
+.delay-300 {
+  animation-delay: 300ms !important;
+}
+
+/* Gradientes */
+.bg-gradient-to-br {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)) !important;
+}
+
+.from-gray-900 {
+  --tw-gradient-from: #111827 !important;
+  --tw-gradient-to: rgba(17, 24, 39, 0) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+.via-gray-800 {
+  --tw-gradient-to: rgba(31, 41, 55, 0) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), #1f2937, var(--tw-gradient-to) !important;
+}
+
+.to-gray-900 {
+  --tw-gradient-to: #111827 !important;
+}
+
+/* Backdrop blur */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px) !important;
 }

@@ -25,7 +25,7 @@ const MutantechLanding = () => {
 
   // Datos del equipo
   const team = [
-    { name: 'Josué Brazales', role: 'Ingeniero ITIN', specialty: 'Full Stack Developer' },
+    { name: 'Josué Brazales', role: 'Ingeniero ITIN', specialty: 'QA Tester' },
     { name: 'Jair Sánchez', role: 'Ingeniero ITIN', specialty: 'Mobile Developer' },
     { name: 'Josué Espinoza', role: 'Ingeniero ITIN', specialty: 'Backend Developer' },
     { name: 'Raúl Faz', role: 'Ingeniero ITIN', specialty: 'Frontend Developer' },
@@ -164,8 +164,7 @@ const MutantechLanding = () => {
                 Transformamos ideas en soluciones tecnológicas innovadoras
               </p>
               <p className="text-lg mb-8 text-gray-400">
-                Somos 6 ingenieros especialistas en Tecnologías de la Información, 
-                graduados de la Universidad de las Fuerzas Armadas ESPE, 
+                Somos una empresa especialistas en Tecnologías de la Información, 
                 comprometidos con la excelencia en desarrollo de software.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -239,8 +238,7 @@ const MutantechLanding = () => {
                 ¿Quiénes <span className="text-mutant-green">Somos?</span>
               </h2>
               <p className="text-lg text-gray-300 mb-6">
-                Mutantech es un equipo de 6 ingenieros especializados en Tecnologías de la Información, 
-                graduados de la prestigiosa Universidad de las Fuerzas Armadas ESPE.
+                Mutantech es un equipo de 6 ingenieros especializados en Tecnologías de la Información.
               </p>
               <p className="text-lg text-gray-300 mb-6">
                 Nos caracterizamos por nuestra pasión por la innovación y nuestro compromiso con la 
