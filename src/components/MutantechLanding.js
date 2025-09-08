@@ -1,6 +1,4 @@
-// src/components/MutantechLanding.js
 import React, { useState, useEffect } from 'react';
-import Plasma from './Plasma'; // Importar el componente Plasma
 import { 
   Code, 
   Smartphone, 
@@ -17,14 +15,22 @@ import {
   Menu,
   X,
   CheckCircle,
-  ArrowRight
+  ArrowRight,
+  Send
 } from 'lucide-react';
 
 const MutantechLanding = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('inicio');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState('');
 
-  // Datos del equipo
+  // Datos del equipo (original)
   const team = [
     { name: 'Josué Brazales', role: 'Ingeniero ITIN', specialty: 'QA Tester' },
     { name: 'Jair Sánchez', role: 'Ingeniero ITIN', specialty: 'Mobile Developer' },
@@ -33,7 +39,7 @@ const MutantechLanding = () => {
     { name: 'Lesly Gaibor', role: 'Ingeniera ITIN', specialty: 'UI/UX Designer' }
   ];
 
-  // Servicios
+  // Servicios (original)
   const services = [
     {
       icon: <Code className="w-8 h-8" />,
@@ -61,7 +67,7 @@ const MutantechLanding = () => {
     }
   ];
 
-  // Tecnologías
+  // Tecnologías (original)
   const technologies = [
     'JavaScript', 'TypeScript', 'PHP', 'Java', 'Python', 'React', 'Node.js', 
     'Laravel', 'Spring Boot', 'MySQL', 'MongoDB', 'AWS', 'Docker'
@@ -98,17 +104,54 @@ const MutantechLanding = () => {
     setIsMenuOpen(false);
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('');
+
+    try {
+      // Simulación de envío de email a mutantech.dev@gmail.com
+      // En producción, integrar con EmailJS, Formspree o tu backend
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Simular éxito
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+      
+      // Aquí iría la integración real con el servicio de email
+      console.log('Enviando email a mutantech.dev@gmail.com:', {
+        from: formData.email,
+        name: formData.name,
+        message: formData.message
+      });
+      
+    } catch (error) {
+      console.error('Error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Header */}
-      <header className="fixed top-0 w-full bg-gray-900/95 backdrop-blur-sm z-50 border-b border-mutant-green/20">
+      <header className="fixed top-0 w-full bg-gray-900/95 backdrop-blur-sm z-50 border-b border-green-500/20">
         <nav className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-mutant-green rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
                 <Code className="w-6 h-6 text-gray-900" />
               </div>
-              <span className="text-2xl font-bold text-mutant-green">MT</span>
+              <span className="text-2xl font-bold text-green-500">MT</span>
             </div>
             
             {/* Desktop Menu */}
@@ -117,8 +160,8 @@ const MutantechLanding = () => {
                 <button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}
-                  className={`hover:text-mutant-green transition-colors ${
-                    activeSection === item.toLowerCase() ? 'text-mutant-green' : ''
+                  className={`hover:text-green-500 transition-colors ${
+                    activeSection === item.toLowerCase() ? 'text-green-500' : ''
                   }`}
                 >
                   {item}
@@ -142,7 +185,7 @@ const MutantechLanding = () => {
                 <button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}
-                  className="block w-full text-left px-4 py-2 hover:text-mutant-green transition-colors"
+                  className="block w-full text-left px-4 py-2 hover:text-green-500 transition-colors"
                 >
                   {item}
                 </button>
@@ -152,25 +195,42 @@ const MutantechLanding = () => {
         </nav>
       </header>
 
-      {/* Hero Section con GradientBlinds Background */}
+      {/* Hero Section con nuevo fondo */}
       <section id="inicio" className="pt-20 min-h-screen flex items-center relative overflow-hidden">
-        {/* Efecto GradientBlinds como fondo */}
-        <div className="absolute inset-0 opacity-95">
-          <Plasma
-            gradientColors={['#00ff88', '#5227FF', '#0088ff', '#ff0088']}
-            angle={0}
-            noise={0.6}
-            blindCount={15}
-            blindMinWidth={60}
-            spotlightRadius={0.3}
-            spotlightSoftness={0.5}
-            spotlightOpacity={2.0}
-            mouseDampening={0.02}
-            distortAmount={1.2}
-            shineDirection="left"
-            mixBlendMode="lighten"
-            mirrorGradient={true}
-          />
+        {/* Nuevo fondo con patrones geométricos animados */}
+        <div className="absolute inset-0">
+          {/* Gradiente base */}
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
+          
+          {/* Patrones geométricos */}
+          <div className="absolute inset-0 opacity-20">
+            <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                  <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#00ff88" strokeWidth="0.5"/>
+                </pattern>
+                <pattern id="dots" width="30" height="30" patternUnits="userSpaceOnUse">
+                  <circle cx="15" cy="15" r="1.5" fill="#00ff88" opacity="0.5"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#grid)" />
+              <rect width="100%" height="100%" fill="url(#dots)" />
+            </svg>
+          </div>
+          
+          {/* Formas geométricas flotantes */}
+          <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-green-500/10 rounded-full blur-xl animate-pulse"></div>
+          <div className="absolute top-1/3 right-1/4 w-24 h-24 bg-blue-500/10 rounded-lg rotate-45 blur-xl animate-pulse" style={{animationDelay: '1s'}}></div>
+          <div className="absolute bottom-1/4 left-1/3 w-40 h-40 bg-purple-500/10 rounded-full blur-xl animate-pulse" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-1/3 right-1/3 w-20 h-20 bg-yellow-500/10 rotate-12 blur-xl animate-pulse" style={{animationDelay: '0.5s'}}></div>
+          
+          {/* Líneas dinámicas */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-green-500/50 to-transparent animate-pulse"></div>
+            <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent animate-pulse" style={{animationDelay: '1s'}}></div>
+            <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-green-500/40 to-transparent animate-pulse" style={{animationDelay: '2s'}}></div>
+            <div className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent animate-pulse" style={{animationDelay: '1.5s'}}></div>
+          </div>
         </div>
         
         {/* Gradiente adicional para mejorar la legibilidad */}
@@ -179,7 +239,7 @@ const MutantechLanding = () => {
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="text-mutant-green">MUTAN</span>
+              <span className="text-green-500">MUTAN</span>
               <span className="text-white">TECH</span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-gray-300">
@@ -192,13 +252,13 @@ const MutantechLanding = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={() => scrollToSection('servicios')}
-                className="btn-primary"
+                className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2"
               >
                 Ver Servicios <ArrowRight className="w-5 h-5" />
               </button>
               <button
                 onClick={() => scrollToSection('contacto')}
-                className="btn-secondary"
+                className="border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300"
               >
                 Contactanos
               </button>
@@ -219,7 +279,7 @@ const MutantechLanding = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Nuestros <span className="text-mutant-green">Servicios</span>
+              Nuestros <span className="text-green-500">Servicios</span>
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Ofrecemos soluciones tecnológicas integrales para impulsar tu negocio hacia el futuro digital
@@ -228,8 +288,8 @@ const MutantechLanding = () => {
 
           <div className="grid md:grid-cols-2 gap-8">
             {services.map((service, index) => (
-              <div key={index} className="glass-card p-8">
-                <div className="text-mutant-green mb-6">
+              <div key={index} className="bg-gray-800 border border-green-500/20 rounded-lg p-8 hover:border-green-500/40 transition-all duration-300">
+                <div className="text-green-500 mb-6">
                   {service.icon}
                 </div>
                 <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
@@ -237,7 +297,7 @@ const MutantechLanding = () => {
                 <ul className="space-y-2">
                   {service.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-center gap-3 text-gray-400">
-                      <CheckCircle className="w-5 h-5 text-mutant-green flex-shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
                       {feature}
                     </li>
                   ))}
@@ -254,7 +314,7 @@ const MutantechLanding = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                ¿Quiénes <span className="text-mutant-green">Somos?</span>
+                ¿Quiénes <span className="text-green-500">Somos?</span>
               </h2>
               <p className="text-lg text-gray-300 mb-6">
                 Mutantech es un equipo de 6 ingenieros especializados en Tecnologías de la Información.
@@ -266,19 +326,19 @@ const MutantechLanding = () => {
               </p>
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-mutant-green">6+</div>
+                  <div className="text-3xl font-bold text-green-500">6+</div>
                   <div className="text-gray-400">Ingenieros Expertos</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-mutant-green">10+</div>
+                  <div className="text-3xl font-bold text-green-500">10+</div>
                   <div className="text-gray-400">Tecnologías</div>
                 </div>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-4">
               {technologies.slice(0, 9).map((tech, index) => (
-                <div key={index} className="bg-gray-800 p-4 rounded-lg text-center border border-mutant-green/20">
-                  <div className="text-mutant-green font-semibold">{tech}</div>
+                <div key={index} className="bg-gray-800 p-4 rounded-lg text-center border border-green-500/20">
+                  <div className="text-green-500 font-semibold">{tech}</div>
                 </div>
               ))}
             </div>
@@ -291,7 +351,7 @@ const MutantechLanding = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Nuestro <span className="text-mutant-green">Equipo</span>
+              Nuestro <span className="text-green-500">Equipo</span>
             </h2>
             <p className="text-xl text-gray-300">
               Ingenieros ITIN especializados en diferentes áreas del desarrollo
@@ -300,12 +360,12 @@ const MutantechLanding = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-8">
             {team.map((member, index) => (
-              <div key={index} className="glass-card p-6 text-center">
-                <div className="w-20 h-20 bg-mutant-green/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-10 h-10 text-mutant-green" />
+              <div key={index} className="bg-gray-800 border border-green-500/20 rounded-lg p-6 text-center hover:border-green-500/40 transition-all duration-300">
+                <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Users className="w-10 h-10 text-green-500" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">{member.name}</h3>
-                <p className="text-mutant-green mb-2">{member.role}</p>
+                <p className="text-green-500 mb-2">{member.role}</p>
                 <p className="text-gray-400 text-sm">{member.specialty}</p>
               </div>
             ))}
@@ -318,7 +378,7 @@ const MutantechLanding = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Hablemos de tu <span className="text-mutant-green">Proyecto</span>
+              Hablemos de tu <span className="text-green-500">Proyecto</span>
             </h2>
             <p className="text-xl text-gray-300">
               ¿Tienes una idea? Nosotros tenemos la experiencia para hacerla realidad
@@ -330,15 +390,15 @@ const MutantechLanding = () => {
               <h3 className="text-2xl font-bold mb-6">Información de Contacto</h3>
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
-                  <Mail className="w-6 h-6 text-mutant-green" />
-                  <span>contacto@mutantech.com</span>
+                  <Mail className="w-6 h-6 text-green-500" />
+                  <span>mutantech.dev@gmail.com</span>
                 </div>
                 <div className="flex items-center gap-4">
-                  <Phone className="w-6 h-6 text-mutant-green" />
+                  <Phone className="w-6 h-6 text-green-500" />
                   <span>+593 99 123 4567</span>
                 </div>
                 <div className="flex items-center gap-4">
-                  <MapPin className="w-6 h-6 text-mutant-green" />
+                  <MapPin className="w-6 h-6 text-green-500" />
                   <span>Quito, Ecuador</span>
                 </div>
               </div>
@@ -346,23 +406,26 @@ const MutantechLanding = () => {
               <div className="mt-8">
                 <h4 className="text-xl font-bold mb-4">Síguenos</h4>
                 <div className="flex gap-4">
-                  <a href="#" className="w-12 h-12 bg-mutant-green/20 rounded-lg flex items-center justify-center hover:bg-mutant-green hover:text-gray-900 transition-colors">
+                  <a href="#" className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center hover:bg-green-500 hover:text-gray-900 transition-colors">
                     <Github className="w-6 h-6" />
                   </a>
-                  <a href="#" className="w-12 h-12 bg-mutant-green/20 rounded-lg flex items-center justify-center hover:bg-mutant-green hover:text-gray-900 transition-colors">
+                  <a href="#" className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center hover:bg-green-500 hover:text-gray-900 transition-colors">
                     <Linkedin className="w-6 h-6" />
                   </a>
                 </div>
               </div>
             </div>
 
-            <div className="glass-card p-8">
+            <div className="bg-gray-800 border border-green-500/20 rounded-lg p-8">
               <div className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium mb-2">Nombre</label>
                   <input
                     type="text"
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-mutant-green focus:outline-none transition-colors"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-green-500 focus:outline-none transition-colors"
                     placeholder="Tu nombre completo"
                   />
                 </div>
@@ -370,23 +433,52 @@ const MutantechLanding = () => {
                   <label className="block text-sm font-medium mb-2">Email</label>
                   <input
                     type="email"
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-mutant-green focus:outline-none transition-colors"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-green-500 focus:outline-none transition-colors"
                     placeholder="tu@email.com"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">Mensaje</label>
                   <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
                     rows={5}
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-mutant-green focus:outline-none transition-colors resize-none"
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-green-500 focus:outline-none transition-colors resize-none"
                     placeholder="Cuéntanos sobre tu proyecto..."
-                  ></textarea>
+                  />
                 </div>
+
+                {submitStatus === 'success' && (
+                  <div className="p-4 bg-green-500/20 border border-green-500/40 rounded-lg text-green-400">
+                    ¡Mensaje enviado con éxito! Te contactaremos pronto.
+                  </div>
+                )}
+                
+                {submitStatus === 'error' && (
+                  <div className="p-4 bg-red-500/20 border border-red-500/40 rounded-lg text-red-400">
+                    Error al enviar el mensaje. Por favor intenta de nuevo.
+                  </div>
+                )}
+
                 <button
-                  onClick={() => alert('¡Gracias por tu interés! Te contactaremos pronto.')}
-                  className="btn-primary w-full"
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className="w-full bg-green-500 hover:bg-green-600 disabled:bg-gray-600 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 disabled:cursor-not-allowed"
                 >
-                  Enviar Mensaje
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Enviando...
+                    </>
+                  ) : (
+                    <>
+                      Enviar Mensaje <Send className="w-5 h-5" />
+                    </>
+                  )}
                 </button>
               </div>
             </div>
@@ -395,11 +487,11 @@ const MutantechLanding = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 bg-gray-900 border-t border-mutant-green/20">
+      <footer className="py-8 bg-gray-900 border-t border-green-500/20">
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <Code className="w-6 h-6 text-mutant-green" />
-            <span className="text-xl font-bold text-mutant-green">MUTANTECH</span>
+            <Code className="w-6 h-6 text-green-500" />
+            <span className="text-xl font-bold text-green-500">MUTANTECH</span>
           </div>
           <p className="text-gray-400">
             © 2025 Mutantech. Transformando ideas en realidad digital.
