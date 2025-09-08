@@ -1,5 +1,6 @@
 // src/components/MutantechLanding.js
 import React, { useState, useEffect } from 'react';
+import Plasma from './Plasma'; // Importar el componente Plasma
 import { 
   Code, 
   Smartphone, 
@@ -107,7 +108,7 @@ const MutantechLanding = () => {
               <div className="w-10 h-10 bg-mutant-green rounded-lg flex items-center justify-center">
                 <Code className="w-6 h-6 text-gray-900" />
               </div>
-              <span className="text-2xl font-bold text-mutant-green">MUTANTECH</span>
+              <span className="text-2xl font-bold text-mutant-green">MT</span>
             </div>
             
             {/* Desktop Menu */}
@@ -151,46 +152,64 @@ const MutantechLanding = () => {
         </nav>
       </header>
 
-      {/* Hero Section */}
-      <section id="inicio" className="pt-20 min-h-screen flex items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-5xl md:text-7xl font-bold mb-6">
-                <span className="text-mutant-green">MUTAN</span>
-                <span className="text-white">TECH</span>
-              </h1>
-              <p className="text-xl md:text-2xl mb-8 text-gray-300">
-                Transformamos ideas en soluciones tecnológicas innovadoras
-              </p>
-              <p className="text-lg mb-8 text-gray-400">
-                Somos una empresa especialistas en Tecnologías de la Información, 
-                comprometidos con la excelencia en desarrollo de software.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button
-                  onClick={() => scrollToSection('servicios')}
-                  className="btn-primary"
-                >
-                  Ver Servicios <ArrowRight className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => scrollToSection('contacto')}
-                  className="btn-secondary"
-                >
-                  Contactanos
-                </button>
-              </div>
+      {/* Hero Section con GradientBlinds Background */}
+      <section id="inicio" className="pt-20 min-h-screen flex items-center relative overflow-hidden">
+        {/* Efecto GradientBlinds como fondo */}
+        <div className="absolute inset-0 opacity-95">
+          <Plasma
+            gradientColors={['#00ff88', '#5227FF', '#0088ff', '#ff0088']}
+            angle={0}
+            noise={0.6}
+            blindCount={15}
+            blindMinWidth={60}
+            spotlightRadius={0.3}
+            spotlightSoftness={0.5}
+            spotlightOpacity={2.0}
+            mouseDampening={0.02}
+            distortAmount={1.2}
+            shineDirection="left"
+            mixBlendMode="lighten"
+            mirrorGradient={true}
+          />
+        </div>
+        
+        {/* Gradiente adicional para mejorar la legibilidad */}
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/50 via-gray-900/20 to-gray-900/50"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6">
+              <span className="text-mutant-green">MUTAN</span>
+              <span className="text-white">TECH</span>
+            </h1>
+            <p className="text-xl md:text-2xl mb-8 text-gray-300">
+              Transformamos ideas en soluciones tecnológicas innovadoras
+            </p>
+            <p className="text-lg mb-8 text-gray-400 max-w-2xl mx-auto">
+              Somos una empresa especialistas en Tecnologías de la Información, 
+              comprometidos con la excelencia en desarrollo de software.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onClick={() => scrollToSection('servicios')}
+                className="btn-primary"
+              >
+                Ver Servicios <ArrowRight className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => scrollToSection('contacto')}
+                className="btn-secondary"
+              >
+                Contactanos
+              </button>
             </div>
-            <div className="flex justify-center">
-              <div className="relative">
-                <div className="w-80 h-80 bg-gradient-to-br from-mutant-green/20 to-transparent rounded-full flex items-center justify-center">
-                  <Code className="w-32 h-32 text-mutant-green" />
-                </div>
-                <div className="absolute -top-4 -right-4 w-20 h-20 bg-mutant-green/10 rounded-full animate-pulse"></div>
-                <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-mutant-green/10 rounded-full animate-pulse delay-300"></div>
-              </div>
-            </div>
+          </div>
+        </div>
+
+        {/* Indicador de scroll */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+          <div className="animate-bounce">
+            <ChevronDown className="w-6 h-6 text-gray-400" />
           </div>
         </div>
       </section>
