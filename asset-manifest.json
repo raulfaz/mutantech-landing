@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/mutantech-landing/static/css/main.6bc43e8e.css",
-    "main.js": "/mutantech-landing/static/js/main.dc179e83.js",
+    "main.js": "/mutantech-landing/static/js/main.d71c6432.js",
     "index.html": "/mutantech-landing/index.html",
     "main.6bc43e8e.css.map": "/mutantech-landing/static/css/main.6bc43e8e.css.map",
-    "main.dc179e83.js.map": "/mutantech-landing/static/js/main.dc179e83.js.map"
+    "main.d71c6432.js.map": "/mutantech-landing/static/js/main.d71c6432.js.map"
   },
   "entrypoints": [
     "static/css/main.6bc43e8e.css",
-    "static/js/main.dc179e83.js"
+    "static/js/main.d71c6432.js"
   ]
 }
