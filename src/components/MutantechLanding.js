@@ -5,7 +5,6 @@ import {
   Globe, 
   MessageSquare, 
   Users, 
-  Zap, 
   Mail, 
   Phone, 
   MapPin,
@@ -16,21 +15,17 @@ import {
   X,
   CheckCircle,
   ArrowRight,
-  Send
+  Sun,
+  Moon
 } from 'lucide-react';
+import ContactForm from './ContactForm';
 
 const MutantechLanding = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('inicio');
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState('');
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
-  // Datos del equipo (original)
+  // Datos del equipo (corregidos los caracteres especiales)
   const team = [
     { name: 'Josué Brazales', role: 'Ingeniero ITIN', specialty: 'QA Tester' },
     { name: 'Jair Sánchez', role: 'Ingeniero ITIN', specialty: 'Mobile Developer' },
@@ -39,7 +34,7 @@ const MutantechLanding = () => {
     { name: 'Lesly Gaibor', role: 'Ingeniera ITIN', specialty: 'UI/UX Designer' }
   ];
 
-  // Servicios (original)
+  // Servicios
   const services = [
     {
       icon: <Code className="w-8 h-8" />,
@@ -67,11 +62,46 @@ const MutantechLanding = () => {
     }
   ];
 
-  // Tecnologías (original)
+  // Tecnologías
   const technologies = [
     'JavaScript', 'TypeScript', 'PHP', 'Java', 'Python', 'React', 'Node.js', 
     'Laravel', 'Spring Boot', 'MySQL', 'MongoDB', 'AWS', 'Docker'
   ];
+
+  // Sistema de colores para ambos temas (corregido)
+  const getThemeClasses = () => {
+    if (isDarkMode) {
+      return {
+        bg: 'bg-gray-900',
+        bgSecondary: 'bg-gray-800',
+        text: 'text-white',
+        textSecondary: 'text-gray-300',
+        textMuted: 'text-gray-400',
+        // Cards con bordes verdes visibles en modo oscuro
+        card: 'bg-gray-700 border-2 border-green-500/80 shadow-lg',
+        cardHover: 'hover:border-green-400 hover:shadow-xl hover:shadow-green-500/30',
+        input: 'bg-gray-700 border-2 border-gray-600',
+        accent: 'text-green-500',
+        gradient: 'from-gray-900 via-gray-800 to-gray-900'
+      };
+    } else {
+      return {
+        bg: 'bg-gray-50',
+        bgSecondary: 'bg-white',
+        text: 'text-gray-900',
+        textSecondary: 'text-gray-700',
+        textMuted: 'text-gray-600',
+        // Cards con bordes verdes en modo claro
+        card: 'bg-white border-2 border-green-500/50 shadow-lg',
+        cardHover: 'hover:border-green-600 hover:shadow-xl hover:shadow-green-500/25',
+        input: 'bg-white border-2 border-gray-300',
+        accent: 'text-green-600',
+        gradient: 'from-gray-50 via-white to-gray-100'
+      };
+    }
+  };
+
+  const theme = getThemeClasses();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -104,47 +134,136 @@ const MutantechLanding = () => {
     setIsMenuOpen(false);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('');
-
-    try {
-      // Simulación de envío de email a mutantech.dev@gmail.com
-      // En producción, integrar con EmailJS, Formspree o tu backend
-      await new Promise(resolve => setTimeout(resolve, 2000));
+  // Componente de fondo animado mejorado
+  const AnimatedBackground = () => (
+    <div className="absolute inset-0 overflow-hidden">
+      {/* Gradiente base dinámico */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${theme.gradient}`}></div>
       
-      // Simular éxito
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', message: '' });
+      {/* Malla de circuitos animada */}
+      <div className="absolute inset-0 opacity-30">
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            {/* Patrón de circuito */}
+            <pattern id="circuit" width="100" height="100" patternUnits="userSpaceOnUse">
+              <path 
+                d="M 0 50 L 25 50 L 25 25 L 75 25 L 75 75 L 100 75" 
+                fill="none" 
+                stroke="#00ff88" 
+                strokeWidth="1" 
+                opacity="0.6"
+              />
+              <circle cx="25" cy="50" r="3" fill="#00ff88" opacity="0.8"/>
+              <circle cx="75" cy="25" r="3" fill="#00ff88" opacity="0.8"/>
+              <circle cx="75" cy="75" r="3" fill="#00ff88" opacity="0.8"/>
+            </pattern>
+            
+            {/* Patrón de puntos */}
+            <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse">
+              <circle cx="20" cy="20" r="2" fill="#00ff88" opacity="0.4">
+                <animate attributeName="opacity" values="0.2;0.8;0.2" dur="3s" repeatCount="indefinite"/>
+              </circle>
+            </pattern>
+            
+            {/* Gradiente radial para orbes */}
+            <radialGradient id="orbGradient" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#00ff88" stopOpacity="0.8"/>
+              <stop offset="100%" stopColor="#00ff88" stopOpacity="0"/>
+            </radialGradient>
+          </defs>
+          
+          <rect width="100%" height="100%" fill="url(#circuit)" />
+          <rect width="100%" height="100%" fill="url(#dots)" />
+        </svg>
+      </div>
       
-      // Aquí iría la integración real con el servicio de email
-      console.log('Enviando email a mutantech.dev@gmail.com:', {
-        from: formData.email,
-        name: formData.name,
-        message: formData.message
-      });
+      {/* Orbes flotantes animados */}
+      <div className="absolute inset-0">
+        {[...Array(8)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full blur-xl animate-pulse"
+            style={{
+              width: `${60 + i * 20}px`,
+              height: `${60 + i * 20}px`,
+              background: 'url(#orbGradient)',
+              left: `${15 + (i * 12)}%`,
+              top: `${20 + (i * 8)}%`,
+              animationDelay: `${i * 0.5}s`,
+              animationDuration: `${3 + i * 0.5}s`,
+            }}
+          />
+        ))}
+      </div>
       
-    } catch (error) {
-      console.error('Error:', error);
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+      {/* Líneas de energía que se mueven */}
+      <div className="absolute inset-0">
+        {[...Array(5)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute h-px w-full opacity-60"
+            style={{
+              background: `linear-gradient(90deg, transparent, #00ff88, transparent)`,
+              top: `${20 + i * 15}%`,
+              animationName: 'slide',
+              animationDuration: `${4 + i}s`,
+              animationIterationCount: 'infinite',
+              animationTimingFunction: 'ease-in-out',
+              animationDelay: `${i * 0.8}s`,
+            }}
+          />
+        ))}
+      </div>
+      
+      {/* Partículas flotantes */}
+      <div className="absolute inset-0">
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-green-500 rounded-full opacity-70"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationName: 'float',
+              animationDuration: `${6 + Math.random() * 4}s`,
+              animationIterationCount: 'infinite',
+              animationTimingFunction: 'ease-in-out',
+              animationDelay: `${Math.random() * 5}s`,
+            }}
+          />
+        ))}
+      </div>
+      
+      {/* Efectos de brillo en las esquinas */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-green-500/10 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+      
+      {/* Overlay de gradiente para mejorar legibilidad */}
+      <div className={`absolute inset-0 bg-gradient-to-b ${isDarkMode ? 'from-gray-900/60 via-gray-900/30 to-gray-900/60' : 'from-gray-50/60 via-white/30 to-gray-50/60'}`}></div>
+    </div>
+  );
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className={`min-h-screen ${theme.bg} ${theme.text} transition-colors duration-300`}>
+      <style>{`
+        @keyframes slide {
+          0%, 100% { transform: translateX(-100%); }
+          50% { transform: translateX(100%); }
+        }
+        
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.7; }
+          33% { transform: translateY(-20px) translateX(10px); opacity: 1; }
+          66% { transform: translateY(-10px) translateX(-5px); opacity: 0.5; }
+        }
+      `}</style>
+
       {/* Header */}
-      <header className="fixed top-0 w-full bg-gray-900/95 backdrop-blur-sm z-50 border-b border-green-500/20">
+      <header className={`fixed top-0 w-full ${isDarkMode ? 'bg-gray-900/95' : 'bg-white/95'} backdrop-blur-sm z-50 border-b border-green-500/30 transition-colors duration-300`}>
         <nav className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-3">
@@ -155,7 +274,7 @@ const MutantechLanding = () => {
             </div>
             
             {/* Desktop Menu */}
-            <div className="hidden md:flex space-x-8">
+            <div className="hidden md:flex items-center space-x-8">
               {['Inicio', 'Servicios', 'Nosotros', 'Equipo', 'Contacto'].map((item) => (
                 <button
                   key={item}
@@ -167,20 +286,37 @@ const MutantechLanding = () => {
                   {item}
                 </button>
               ))}
+              
+              {/* Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-lg hover:bg-green-500/10 transition-colors"
+                aria-label="Toggle theme"
+              >
+                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
             </div>
 
             {/* Mobile Menu Button */}
-            <button
-              className="md:hidden"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X /> : <Menu />}
-            </button>
+            <div className="md:hidden flex items-center gap-4">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-lg hover:bg-green-500/10 transition-colors"
+                aria-label="Toggle theme"
+              >
+                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                {isMenuOpen ? <X /> : <Menu />}
+              </button>
+            </div>
           </div>
 
           {/* Mobile Menu */}
           {isMenuOpen && (
-            <div className="md:hidden mt-4 py-4 bg-gray-800 rounded-lg">
+            <div className={`md:hidden mt-4 py-4 ${theme.bgSecondary} rounded-lg`}>
               {['Inicio', 'Servicios', 'Nosotros', 'Equipo', 'Contacto'].map((item) => (
                 <button
                   key={item}
@@ -195,64 +331,27 @@ const MutantechLanding = () => {
         </nav>
       </header>
 
-      {/* Hero Section con nuevo fondo */}
+      {/* Hero Section con fondo mejorado */}
       <section id="inicio" className="pt-20 min-h-screen flex items-center relative overflow-hidden">
-        {/* Nuevo fondo con patrones geométricos animados */}
-        <div className="absolute inset-0">
-          {/* Gradiente base */}
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
-          
-          {/* Patrones geométricos */}
-          <div className="absolute inset-0 opacity-20">
-            <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-                  <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#00ff88" strokeWidth="0.5"/>
-                </pattern>
-                <pattern id="dots" width="30" height="30" patternUnits="userSpaceOnUse">
-                  <circle cx="15" cy="15" r="1.5" fill="#00ff88" opacity="0.5"/>
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-              <rect width="100%" height="100%" fill="url(#dots)" />
-            </svg>
-          </div>
-          
-          {/* Formas geométricas flotantes */}
-          <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-green-500/10 rounded-full blur-xl animate-pulse"></div>
-          <div className="absolute top-1/3 right-1/4 w-24 h-24 bg-blue-500/10 rounded-lg rotate-45 blur-xl animate-pulse" style={{animationDelay: '1s'}}></div>
-          <div className="absolute bottom-1/4 left-1/3 w-40 h-40 bg-purple-500/10 rounded-full blur-xl animate-pulse" style={{animationDelay: '2s'}}></div>
-          <div className="absolute bottom-1/3 right-1/3 w-20 h-20 bg-yellow-500/10 rotate-12 blur-xl animate-pulse" style={{animationDelay: '0.5s'}}></div>
-          
-          {/* Líneas dinámicas */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-green-500/50 to-transparent animate-pulse"></div>
-            <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent animate-pulse" style={{animationDelay: '1s'}}></div>
-            <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-green-500/40 to-transparent animate-pulse" style={{animationDelay: '2s'}}></div>
-            <div className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent animate-pulse" style={{animationDelay: '1.5s'}}></div>
-          </div>
-        </div>
-        
-        {/* Gradiente adicional para mejorar la legibilidad */}
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/50 via-gray-900/20 to-gray-900/50"></div>
+        <AnimatedBackground />
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
               <span className="text-green-500">MUTAN</span>
-              <span className="text-white">TECH</span>
+              <span className={theme.text}>TECH</span>
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-gray-300">
+            <p className={`text-xl md:text-2xl mb-8 ${theme.textSecondary}`}>
               Transformamos ideas en soluciones tecnológicas innovadoras
             </p>
-            <p className="text-lg mb-8 text-gray-400 max-w-2xl mx-auto">
+            <p className={`text-lg mb-8 ${theme.textMuted} max-w-2xl mx-auto`}>
               Somos una empresa especialistas en Tecnologías de la Información, 
               comprometidos con la excelencia en desarrollo de software.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={() => scrollToSection('servicios')}
-                className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2"
+                className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-green-500/25"
               >
                 Ver Servicios <ArrowRight className="w-5 h-5" />
               </button>
@@ -260,7 +359,7 @@ const MutantechLanding = () => {
                 onClick={() => scrollToSection('contacto')}
                 className="border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300"
               >
-                Contactanos
+                Contáctanos
               </button>
             </div>
           </div>
@@ -269,34 +368,34 @@ const MutantechLanding = () => {
         {/* Indicador de scroll */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
           <div className="animate-bounce">
-            <ChevronDown className="w-6 h-6 text-gray-400" />
+            <ChevronDown className={`w-6 h-6 ${theme.textMuted}`} />
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section id="servicios" className="py-20 bg-gray-800">
+      <section id="servicios" className={`py-20 ${theme.bgSecondary} transition-colors duration-300`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Nuestros <span className="text-green-500">Servicios</span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className={`text-xl ${theme.textSecondary} max-w-3xl mx-auto`}>
               Ofrecemos soluciones tecnológicas integrales para impulsar tu negocio hacia el futuro digital
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
             {services.map((service, index) => (
-              <div key={index} className="bg-gray-800 border border-green-500/20 rounded-lg p-8 hover:border-green-500/40 transition-all duration-300">
+              <div key={index} className={`${theme.card} ${theme.cardHover} rounded-lg p-8 transition-all duration-300`}>
                 <div className="text-green-500 mb-6">
                   {service.icon}
                 </div>
                 <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
-                <p className="text-gray-300 mb-6">{service.description}</p>
+                <p className={`${theme.textSecondary} mb-6`}>{service.description}</p>
                 <ul className="space-y-2">
                   {service.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center gap-3 text-gray-400">
+                    <li key={featureIndex} className={`flex items-center gap-3 ${theme.textMuted}`}>
                       <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
                       {feature}
                     </li>
@@ -309,35 +408,35 @@ const MutantechLanding = () => {
       </section>
 
       {/* About Section */}
-      <section id="nosotros" className="py-20">
+      <section id="nosotros" className={`py-20 ${theme.bg} transition-colors duration-300`}>
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
                 ¿Quiénes <span className="text-green-500">Somos?</span>
               </h2>
-              <p className="text-lg text-gray-300 mb-6">
-                Mutantech es un equipo de 6 ingenieros especializados en Tecnologías de la Información.
+              <p className={`text-lg ${theme.textSecondary} mb-6`}>
+                Mutantech es un equipo de 5 ingenieros especializados en Tecnologías de la Información.
               </p>
-              <p className="text-lg text-gray-300 mb-6">
+              <p className={`text-lg ${theme.textSecondary} mb-6`}>
                 Nos caracterizamos por nuestra pasión por la innovación y nuestro compromiso con la 
                 excelencia técnica. Cada proyecto es una oportunidad para aplicar las mejores prácticas 
                 y las tecnologías más avanzadas del mercado.
               </p>
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-green-500">6+</div>
-                  <div className="text-gray-400">Ingenieros Expertos</div>
+                  <div className="text-3xl font-bold text-green-500">5+</div>
+                  <div className={theme.textMuted}>Ingenieros Expertos</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-green-500">10+</div>
-                  <div className="text-gray-400">Tecnologías</div>
+                  <div className="text-3xl font-bold text-green-500">13+</div>
+                  <div className={theme.textMuted}>Tecnologías</div>
                 </div>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-4">
               {technologies.slice(0, 9).map((tech, index) => (
-                <div key={index} className="bg-gray-800 p-4 rounded-lg text-center border border-green-500/20">
+                <div key={index} className={`${theme.card} ${theme.cardHover} p-4 rounded-lg text-center transition-all duration-300`}>
                   <div className="text-green-500 font-semibold">{tech}</div>
                 </div>
               ))}
@@ -347,26 +446,26 @@ const MutantechLanding = () => {
       </section>
 
       {/* Team Section */}
-      <section id="equipo" className="py-20 bg-gray-800">
+      <section id="equipo" className={`py-20 ${theme.bgSecondary} transition-colors duration-300`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Nuestro <span className="text-green-500">Equipo</span>
             </h2>
-            <p className="text-xl text-gray-300">
+            <p className={`text-xl ${theme.textSecondary}`}>
               Ingenieros ITIN especializados en diferentes áreas del desarrollo
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 max-w-7xl mx-auto">
             {team.map((member, index) => (
-              <div key={index} className="bg-gray-800 border border-green-500/20 rounded-lg p-6 text-center hover:border-green-500/40 transition-all duration-300">
-                <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div key={index} className={`${theme.card} ${theme.cardHover} rounded-lg p-6 text-center transition-all duration-300 ${isDarkMode ? 'hover:bg-gray-600' : ''}`}>
+                <div className={`w-20 h-20 ${isDarkMode ? 'bg-green-500/30' : 'bg-green-500/20'} rounded-full flex items-center justify-center mx-auto mb-4`}>
                   <Users className="w-10 h-10 text-green-500" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">{member.name}</h3>
                 <p className="text-green-500 mb-2">{member.role}</p>
-                <p className="text-gray-400 text-sm">{member.specialty}</p>
+                <p className={`${theme.textMuted} text-sm`}>{member.specialty}</p>
               </div>
             ))}
           </div>
@@ -374,13 +473,13 @@ const MutantechLanding = () => {
       </section>
 
       {/* Contact Section */}
-      <section id="contacto" className="py-20">
+      <section id="contacto" className={`py-20 ${theme.bg} transition-colors duration-300`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Hablemos de tu <span className="text-green-500">Proyecto</span>
             </h2>
-            <p className="text-xl text-gray-300">
+            <p className={`text-xl ${theme.textSecondary}`}>
               ¿Tienes una idea? Nosotros tenemos la experiencia para hacerla realidad
             </p>
           </div>
@@ -406,94 +505,38 @@ const MutantechLanding = () => {
               <div className="mt-8">
                 <h4 className="text-xl font-bold mb-4">Síguenos</h4>
                 <div className="flex gap-4">
-                  <a href="#" className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center hover:bg-green-500 hover:text-gray-900 transition-colors">
+                  <button 
+                    onClick={() => window.open('https://github.com/mutantech', '_blank')}
+                    className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center hover:bg-green-500 hover:text-gray-900 transition-colors"
+                    aria-label="Ir a nuestro GitHub"
+                  >
                     <Github className="w-6 h-6" />
-                  </a>
-                  <a href="#" className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center hover:bg-green-500 hover:text-gray-900 transition-colors">
+                  </button>
+                  <button 
+                    onClick={() => window.open('https://linkedin.com/company/mutantech', '_blank')}
+                    className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center hover:bg-green-500 hover:text-gray-900 transition-colors"
+                    aria-label="Ir a nuestro LinkedIn"
+                  >
                     <Linkedin className="w-6 h-6" />
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
 
-            <div className="bg-gray-800 border border-green-500/20 rounded-lg p-8">
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Nombre</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-green-500 focus:outline-none transition-colors"
-                    placeholder="Tu nombre completo"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-green-500 focus:outline-none transition-colors"
-                    placeholder="tu@email.com"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Mensaje</label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    rows={5}
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-green-500 focus:outline-none transition-colors resize-none"
-                    placeholder="Cuéntanos sobre tu proyecto..."
-                  />
-                </div>
-
-                {submitStatus === 'success' && (
-                  <div className="p-4 bg-green-500/20 border border-green-500/40 rounded-lg text-green-400">
-                    ¡Mensaje enviado con éxito! Te contactaremos pronto.
-                  </div>
-                )}
-                
-                {submitStatus === 'error' && (
-                  <div className="p-4 bg-red-500/20 border border-red-500/40 rounded-lg text-red-400">
-                    Error al enviar el mensaje. Por favor intenta de nuevo.
-                  </div>
-                )}
-
-                <button
-                  onClick={handleSubmit}
-                  disabled={isSubmitting}
-                  className="w-full bg-green-500 hover:bg-green-600 disabled:bg-gray-600 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Enviando...
-                    </>
-                  ) : (
-                    <>
-                      Enviar Mensaje <Send className="w-5 h-5" />
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
+            {/* Formulario de contacto con EmailJS */}
+            <ContactForm theme={theme} />
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 bg-gray-900 border-t border-green-500/20">
+      <footer className={`py-8 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'} border-t border-green-500/30 transition-colors duration-300`}>
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center space-x-3 mb-4">
             <Code className="w-6 h-6 text-green-500" />
             <span className="text-xl font-bold text-green-500">MUTANTECH</span>
           </div>
-          <p className="text-gray-400">
+          <p className={theme.textMuted}>
             © 2025 Mutantech. Transformando ideas en realidad digital.
           </p>
         </div>
